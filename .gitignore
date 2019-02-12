@@ -6,3 +6,6 @@
 
 # Pytest
 .pytest_cache
+
+# Python artifacts
+__pycache__
