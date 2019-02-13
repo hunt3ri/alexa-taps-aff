@@ -2,6 +2,8 @@ import os
 
 import requests
 
+from app.weather_models import CurrentWeather
+
 
 class OpenWeatherService:
 
@@ -18,6 +20,8 @@ class OpenWeatherService:
         response = requests.get(weather_url)
 
         if response.status_code == 200:
+            current_weather = CurrentWeather().load(response.json())
+
             weather_json = response.json()
 
         return 'test'
