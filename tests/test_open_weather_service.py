@@ -4,7 +4,7 @@ import pytest
 
 from unittest.mock import patch
 
-from app.open_weather_service import OpenWeatherService, Response, NotFound, TapsAffError, CurrentWeather
+from app.open_weather_service import OpenWeatherService, Response, NotFound, TapsAffError
 
 
 class TestOpenWeatherService:
@@ -50,10 +50,8 @@ class TestOpenWeatherService:
         # Act
         current_weather = OpenWeatherService(place_name='Stirling')._get_current_weather_data()
 
-        iain = CurrentWeather()
-
         # Assert
-        assert current_weather['main'].temp == 6.5
+        assert current_weather.main['temp'] == 6.5
 
     def get_canned_json(self, file_name: str):
         """ Read canned api response from file """

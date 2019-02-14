@@ -29,7 +29,7 @@ class OpenWeatherService:
         response = requests.get(weather_url)
 
         if response.status_code == 200:
-            current_weather = CurrentWeather().loads(response.json())
+            current_weather = CurrentWeather(response.json(), strict=False)
 
             weather_json = response.json()
 
@@ -41,11 +41,7 @@ class OpenWeatherService:
         response = self._make_api_call(weather_url)
 
         if response.status_code == 200:
-            iain = response.json()
-            bob = CurrentWeather().load(response.json())
-            abi = bob['main']['temp']
-            lou = abi
-            #return CurrentWeather().load(response.json())
+            return CurrentWeather(response.json(), strict=False)
         elif response.status_code == 404:
             raise NotFound(f'Nothing found for {self.place_name}')
         else:
