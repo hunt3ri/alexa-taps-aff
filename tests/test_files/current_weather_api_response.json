@@ -1,0 +1,42 @@
+{
+  "coord": {
+    "lon": -3.94,
+    "lat": 56.12
+  },
+  "weather": [
+    {
+      "id": 741,
+      "main": "Fog",
+      "description": "fog",
+      "icon": "50n"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 6.5,
+    "pressure": 1024,
+    "humidity": 93,
+    "temp_min": 5,
+    "temp_max": 8
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 5.1,
+    "deg": 230
+  },
+  "clouds": {
+    "all": 0
+  },
+  "dt": 1550010000,
+  "sys": {
+    "type": 1,
+    "id": 1442,
+    "message": 0.0037,
+    "country": "GB",
+    "sunrise": 1549957607,
+    "sunset": 1549991641
+  },
+  "id": 2636910,
+  "name": "Stirling",
+  "cod": 200
+}
