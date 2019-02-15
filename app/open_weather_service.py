@@ -15,7 +15,6 @@ class OpenWeatherService:
     def __init__(self, place_name: str):
         self.api_key = os.getenv('OPEN_WEATHER_KEY', None)  # Key used to access the Open Weather API
 
-        # bb08b96b2a28b4a00ce434efa6521198
         if self.api_key is None:
             raise ValueError('OPEN_WEATHER_KEY environment variable not set')
 
@@ -39,9 +38,9 @@ class OpenWeatherService:
             self.temp = int(self.temp)
 
         if self.temp >= self.taps_aff_threshold:
-            return f"YAS it's taps aff. Current temp in {self.place_name} is {self.temp} degrees"
+            return f'<speak><emphasis level="strong">YAS</emphasis> it\'s taps aff in {self.place_name}. Current temp is {self.temp} degrees</speak>'
         else:
-            return f"Sorry it's taps own. Current temp is {self.place_name} is {self.temp} degrees"
+            return f"Sorry pal it's taps own in {self.place_name}. Current temp is {self.temp} degrees"
 
     def _get_current_weather_data(self) -> CurrentWeather:
 

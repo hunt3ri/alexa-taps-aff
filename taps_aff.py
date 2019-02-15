@@ -37,6 +37,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         speech_text = "Hiya!"
+        #speech_text = '<speak>I want to tell you a secret. <amazon:effect name="whispered">I am not a real human.</amazon:effect>. Can you believe it?</speak>'
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Taps Aff", speech_text)).set_should_end_session(
