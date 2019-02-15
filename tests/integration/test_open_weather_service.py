@@ -1,10 +1,4 @@
-import json
-import os
-import pytest
-
-from unittest.mock import patch
-
-from app.open_weather_service import OpenWeatherService, Response, NotFound, TapsAffError, MainWeatherData
+from app.open_weather_service import OpenWeatherService
 
 
 class TestOpenWeatherService:
