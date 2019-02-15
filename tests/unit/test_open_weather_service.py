@@ -4,16 +4,10 @@ import pytest
 
 from unittest.mock import patch
 
-from app.open_weather_service import OpenWeatherService, Response, NotFound, TapsAffError
+from app.open_weather_service import OpenWeatherService, Response, NotFound, TapsAffError, MainWeatherData
 
 
 class TestOpenWeatherService:
-
-    def test_get_weather_service_returns_temp(self):
-        # Act
-        temp = OpenWeatherService(place_name='Stirling').get_temp_for_place()
-
-        assert temp == 'test', "Temp should be returned"
 
     @patch.object(OpenWeatherService, '_make_api_call')
     def test_not_found_raised_if_place_not_found(self, mock_api_call):
@@ -52,6 +46,62 @@ class TestOpenWeatherService:
 
         # Assert
         assert current_weather.main['temp'] == 6.5
+
+    def test_its_taps_aff_if_over_threshold(self):
+        # Arrange
+        main_weather = MainWeatherData()
+        main_weather.temp = 30
+
+        # Act
+        phrase = OpenWeatherService(place_name='Stirling')._is_it_taps_aff(main_weather)
+
+        # Assert
+        assert phrase == "YAS it's taps aff. Current temp in Stirling is 30 degrees"
+
+    def test_its_taps_own_if_over_threshold(self):
+        # Arrange
+        main_weather = MainWeatherData()
+        main_weather.temp = 5
+
+        # Act
+        phrase = OpenWeatherService(place_name='Stirling')._is_it_taps_aff(main_weather)
+
+        # Assert
+        assert phrase == "Sorry it's taps own. Current temp is Stirling is 5 degrees"
+
+    def test_float_rounding_trims_point_zero(self):
+        # Arrange
+        main_weather = MainWeatherData()
+        main_weather.temp = 9.97
+
+        # Act
+        phrase = OpenWeatherService(place_name='Stirling')._is_it_taps_aff(main_weather)
+
+        # Assert
+        assert phrase == "Sorry it's taps own. Current temp is Stirling is 10 degrees"
+
+    def test_float_rounding_does_not_trip_single_decimaal_point(self):
+        # Arrange
+        main_weather = MainWeatherData()
+        main_weather.temp = 10.5
+
+        # Act
+        phrase = OpenWeatherService(place_name='Stirling')._is_it_taps_aff(main_weather)
+
+        # Assert
+        assert phrase == "Sorry it's taps own. Current temp is Stirling is 10.5 degrees"
+
+    def test_float_rounding_does_not_works_for_multiple_decimal_points(self):
+        # Arrange
+        main_weather = MainWeatherData()
+        main_weather.temp = 10.55
+
+        # Act
+        phrase = OpenWeatherService(place_name='Stirling')._is_it_taps_aff(main_weather)
+
+        # Assert
+        assert phrase == "Sorry it's taps own. Current temp is Stirling is 10.6 degrees"
+
 
     def get_canned_json(self, file_name: str):
         """ Read canned api response from file """

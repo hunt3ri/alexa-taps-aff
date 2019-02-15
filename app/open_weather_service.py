@@ -4,8 +4,10 @@ import requests
 
 from requests import Response
 
-from app.weather_models import CurrentWeather
+from app.weather_models import CurrentWeather, MainWeatherData
 from app.utils import NotFound, TapsAffError
+
+TAPS_AFF_THRESHOLD = 20
 
 
 class OpenWeatherService:
@@ -18,22 +20,28 @@ class OpenWeatherService:
             raise ValueError('OPEN_WEATHER_KEY environment variable not set')
 
         self.place_name = place_name
+        self.taps_aff_threshold = TAPS_AFF_THRESHOLD
 
     def get_taps_aff_forecast(self) -> str:
-        pass
+        """ Build forecast phrase for Alexa """
+        try:
+            current_weather = self._get_current_weather_data()
+            return self._is_it_taps_aff(current_weather.main)
+        except NotFound:
+            return f"Sorry, pal I cannay find any forecast for {self.place_name}"
+        except TapsAffError:
+            return f"Sorry captain problem with the engine. A cannay change the laws of physics. Try again in a couple of minutes"
 
-    def get_temp_for_place(self) -> float:
-        """ Lookup temp for supplied place """
+    def _is_it_taps_aff(self, main_weather_data: MainWeatherData) -> str:
+        self.temp = round(main_weather_data.temp, 1)
 
-        weather_url = f'https://api.openweathermap.org/data/2.5/weather?q={self.place_name}&appid={self.api_key}&units=metric'
-        response = requests.get(weather_url)
+        if ".0" in "{:.1f}".format(self.temp):
+            self.temp = int(self.temp)
 
-        if response.status_code == 200:
-            current_weather = CurrentWeather(response.json(), strict=False)
-
-            weather_json = response.json()
-
-        return 'test'
+        if self.temp >= self.taps_aff_threshold:
+            return f"YAS it's taps aff. Current temp in {self.place_name} is {self.temp} degrees"
+        else:
+            return f"Sorry it's taps own. Current temp is {self.place_name} is {self.temp} degrees"
 
     def _get_current_weather_data(self) -> CurrentWeather:
 
