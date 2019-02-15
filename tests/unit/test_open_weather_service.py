@@ -102,7 +102,6 @@ class TestOpenWeatherService:
         # Assert
         assert phrase == "Sorry it's taps own. Current temp is Stirling is 10.6 degrees"
 
-
     def get_canned_json(self, file_name: str):
         """ Read canned api response from file """
         location = os.path.join(os.path.dirname(__file__), 'test_files', file_name)

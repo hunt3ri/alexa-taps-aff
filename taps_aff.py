@@ -8,9 +8,10 @@ from ask_sdk_core.dispatch_components import AbstractRequestHandler
 from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 from ask_sdk_core.utils import is_request_type, is_intent_name
 from ask_sdk_core.handler_input import HandlerInput
-
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
+
+from app.open_weather_service import OpenWeatherService
 
 sb = SkillBuilder()
 
@@ -49,15 +50,14 @@ class TapsAffIntentHandler(AbstractRequestHandler):
 
         slots = handler_input.request_envelope.request.intent.slots
 
-        city = "Unknown"
-
         if city_slot in slots:
             city = slots[city_slot].value
-
-        speech_text = f"Outlook today in {city} is taps own"
+            phrase = OpenWeatherService(place_name=city).get_taps_aff_forecast()
+        else:
+            phrase = "Sorry pal, you need to mention a city, when asking is it taps aff"
 
         handler_input.response_builder.speak(speech_text).set_card(
-            SimpleCard("Taps Aff", speech_text)).set_should_end_session(
+            SimpleCard("Taps Aff", phrase)).set_should_end_session(
             True)
         return handler_input.response_builder.response
 
