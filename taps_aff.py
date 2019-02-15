@@ -15,10 +15,16 @@ from app.open_weather_service import OpenWeatherService
 
 sb = SkillBuilder()
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("taps_aff")
 logger.setLevel(logging.INFO)
 
 city_slot = "city"
+
+
+def get_logger():
+    """ Helper to get logger """
+    if logger:
+        return logger
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
@@ -56,7 +62,7 @@ class TapsAffIntentHandler(AbstractRequestHandler):
         else:
             phrase = "Sorry pal, you need to mention a city, when asking is it taps aff"
 
-        handler_input.response_builder.speak(speech_text).set_card(
+        handler_input.response_builder.speak(phrase).set_card(
             SimpleCard("Taps Aff", phrase)).set_should_end_session(
             True)
         return handler_input.response_builder.response
