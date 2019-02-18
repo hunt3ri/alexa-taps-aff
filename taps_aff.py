@@ -36,12 +36,16 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speech_text = "Hiya!"
-        #speech_text = '<speak>I want to tell you a secret. <amazon:effect name="whispered">I am not a real human.</amazon:effect>. Can you believe it?</speak>'
+        logger.info('TestLaunch message')
+        speech = "Hiya!"
+        reprompt = "Wit city day you want to check the current Taps Aff status?"
 
-        handler_input.response_builder.speak(speech_text).set_card(
-            SimpleCard("Taps Aff", speech_text)).set_should_end_session(
-            False)
+        handler_input.response_builder.speak(speech).ask(reprompt)
+
+        # #
+        # handler_input.response_builder.speak(speech).set_card(
+        #     SimpleCard("Taps Aff", speech)).set_should_end_session(
+        #     False)
         return handler_input.response_builder.response
 
 
@@ -78,11 +82,13 @@ class HelpIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speech_text = "You can say is it taps aff in city of your choice"
+        speech = "You can say is it taps aff in city of your choice"
         reprompt = "What city do you want tay check!"
 
-        handler_input.response_builder.speak(speech_text).ask(
-            speech_text).set_card(SimpleCard("Taps Aff", speech_text))
+        handler_input.response_builder.speak(speech).ask(reprompt)
+
+        # handler_input.response_builder.speak(speech_text).ask(
+        #     speech_text).set_card(SimpleCard("Taps Aff", speech_text))
         return handler_input.response_builder.response
 
 
@@ -114,9 +120,9 @@ class FallbackIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         speech_text = (
-            "Sorry big man, I can't do that."
+            "Haw I canny day that"
             "You can say is it taps aff in city of your choice")
-        reprompt = "What city do you want tay check!"
+        reprompt = "Wit city do you want tay check!"
         handler_input.response_builder.speak(speech_text).ask(reprompt)
         return handler_input.response_builder.response
 

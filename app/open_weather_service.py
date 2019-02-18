@@ -38,9 +38,9 @@ class OpenWeatherService:
             self.temp = int(self.temp)
 
         if self.temp >= self.taps_aff_threshold:
-            return f'<speak><emphasis level="strong">YAS</emphasis> it\'s taps aff in {self.place_name}. Current temp is {self.temp} degrees</speak>'
+            return f'<speak><emphasis level="strong">YAS.</emphasis> It\'s taps aff in {self.place_name}. Current temp is {self.temp} degrees</speak>'
         else:
-            return f"Sorry pal it's taps own in {self.place_name}. Current temp is {self.temp} degrees"
+            return f'<speak><emphasis level="strong">Naw mate.</emphasis> It\'s taps own in {self.place_name}. Current temp is {self.temp} degrees</speak>'
 
     def _get_current_weather_data(self) -> CurrentWeather:
 
