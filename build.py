@@ -18,11 +18,12 @@ def copy_app_to_build_dir():
 
 
 def build_app():
-    print('Build app...')
+    print('Building app...')
     make_archive('dist/taps_aff.zip', 'zip', '.venv/Lib/site-packages')
 
 
 if __name__ == '__main__':
+    """ Little helper util to make process of creating a deployable faster.  .zip is created in local dist folder"""
     clean_build_dir()
     copy_app_to_build_dir()
     build_app()
