@@ -32,6 +32,7 @@ class OpenWeatherService:
             return f"Sorry captain problem with the engine. A cannay change the laws of physics. Try again in a couple of minutes"
 
     def _is_it_taps_aff(self, main_weather_data: MainWeatherData) -> str:
+        """ Builds appropriate phrase for app """
         self.temp = round(main_weather_data.temp, 1)
 
         if ".0" in "{:.1f}".format(self.temp):
@@ -43,7 +44,7 @@ class OpenWeatherService:
             return f'<speak><emphasis level="strong">Gnaw mate.</emphasis> It\'s taps own in {self.place_name}. It\'s only {self.temp} degrees</speak>'
 
     def _get_current_weather_data(self) -> CurrentWeather:
-
+        """ Calls weather service and parses response ready to return to user """
         weather_url = f'https://api.openweathermap.org/data/2.5/weather?q={self.place_name}&appid={self.api_key}&units=metric'
         response = self._make_api_call(weather_url)
 
