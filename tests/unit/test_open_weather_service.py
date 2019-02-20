@@ -106,6 +106,17 @@ class TestOpenWeatherService:
         # Assert
         assert "10.6" in phrase
 
+    def test_low_temp_is_baltic(self):
+        # Arrange
+        main_weather = MainWeatherData()
+        main_weather.temp = 8
+
+        # Act
+        phrase = OpenWeatherService(place_name='Stirling')._is_it_taps_aff(main_weather)
+
+        # Assert
+        assert "baltic" in phrase
+
     def get_canned_json(self, file_name: str):
         """ Read canned api response from file """
         location = os.path.join(os.path.dirname(__file__), 'test_files', file_name)

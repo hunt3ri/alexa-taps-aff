@@ -27,9 +27,9 @@ class OpenWeatherService:
             current_weather = self._get_current_weather_data()
             return self._is_it_taps_aff(current_weather.main)
         except NotFound:
-            return f"Sorry, pal I cannay find any forecast for {self.place_name}"
+            return f"Sorry, mate I cannay find any forecast for {self.place_name}"
         except TapsAffError:
-            return f"Sorry captain problem with the engine. A cannay change the laws of physics. Try again in a couple of minutes"
+            return f"Sorry captain problem with the engine. I cannay change the laws of physics. Try again in a couple of minutes"
 
     def _is_it_taps_aff(self, main_weather_data: MainWeatherData) -> str:
         """ Builds appropriate phrase for app """
@@ -39,9 +39,14 @@ class OpenWeatherService:
             self.temp = int(self.temp)
 
         if self.temp >= self.taps_aff_threshold:
-            return f'<speak><emphasis level="strong">YAS.</emphasis> It\'s taps aff in {self.place_name}. It\'s pure roasting at {self.temp} degrees</speak>'
+            return f'<speak><emphasis level="strong">YAS.</emphasis> It\'s taps aff in {self.place_name}. It\'s a pure roasting {self.temp} degrees</speak>'
         else:
-            return f'<speak><emphasis level="strong">Gnaw mate.</emphasis> It\'s taps own in {self.place_name}. It\'s only {self.temp} degrees</speak>'
+            if self.temp < 10:
+                cold_state = 'a baltic'
+            else:
+                cold_state = 'only'
+
+            return f'<speak><emphasis level="strong">Naw mate.</emphasis> It\'s taps own in {self.place_name}. It\'s {cold_state} {self.temp} degrees</speak>'
 
     def _get_current_weather_data(self) -> CurrentWeather:
         """ Calls weather service and parses response ready to return to user """
