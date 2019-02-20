@@ -28,12 +28,12 @@ class LaunchRequestHandler(AbstractRequestHandler):
         return is_request_type("LaunchRequest")(handler_input)
 
     def handle(self, handler_input: HandlerInput) -> Response:
-        speech = "Hiya! Wit city day you want to check if it's Taps Aff or Taps Own"
+        speech = "Hiya! Wit city dae you want tae check if it's Taps Aff or Taps Own"
 
-        #handler_input.response_builder.speak(speech).ask(reprompt)
+        handler_input.response_builder.speak(speech).set_should_end_session(False)
 
-        handler_input.response_builder.speak(speech).set_card(
-            SimpleCard("Taps Aff", speech)).set_should_end_session(False)
+        # handler_input.response_builder.speak(speech).set_card(
+        #     SimpleCard("Taps Aff", speech)).set_should_end_session(False)
         return handler_input.response_builder.response
 
 
@@ -52,8 +52,10 @@ class TapsAffIntentHandler(AbstractRequestHandler):
         else:
             phrase = "Sorry mate, you need to mention a city, when asking taps aff"
 
-        handler_input.response_builder.speak(phrase).set_card(
-            SimpleCard("Taps Aff", phrase)).set_should_end_session(True)
+        handler_input.response_builder.speak(phrase)
+
+        # handler_input.response_builder.speak(phrase).set_card(
+        #     SimpleCard("Taps Aff", phrase, 'SSML')).set_should_end_session(True)
         return handler_input.response_builder.response
 
 
@@ -84,8 +86,10 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input: HandlerInput) -> Response:
         speech_text = "Bye for noo!"
 
-        handler_input.response_builder.speak(speech_text).set_card(
-            SimpleCard("Taps Aff", speech_text))
+        handler_input.response_builder.speak(speech_text)
+
+        # handler_input.response_builder.speak(speech_text).set_card(
+        #     SimpleCard("Taps Aff", speech_text))
         return handler_input.response_builder.response
 
 
@@ -98,7 +102,7 @@ class FallbackIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input: HandlerInput) -> Response:
         speech_text = (
-            "Haw I canny day that. Try saying, Alexa ask taps aff to check Glasgow")
+            "Haw I canny dae that. Try saying, Alexa ask taps aff to check Glasgow")
         reprompt = "Wit city do you want tay check!"
         handler_input.response_builder.speak(speech_text).ask(reprompt)
         return handler_input.response_builder.response
